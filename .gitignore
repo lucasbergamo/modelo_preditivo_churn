@@ -1,0 +1,54 @@
+# PDFs e documentos
+*.pdf
+*.docx
+*.doc
+*.xlsx
+*.xls
+*.pptx
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Ambientes virtuais
+.venv/
+venv/
+env/
+ENV/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Dados sensíveis / grandes
+*.csv
+*.parquet
+*.json
+*.pkl
+*.pickle
+*.h5
+*.hdf5
+data/raw/
+data/external/
+
+# IDEs
+.vscode/
+.idea/
+*.code-workspace
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Variáveis de ambiente
+.env
+.env.*
+secrets.yaml
