@@ -35,8 +35,18 @@ ENV/
 *.pickle
 *.h5
 *.hdf5
-data/raw/
-data/external/
+data/bronze/
+data/silver/
+data/gold/
+
+# MLflow
+mlruns/
+mlartifacts/
+
+# Modelos treinados
+models/*.pt
+models/*.pth
+models/*.pkl
 
 # IDEs
 .vscode/
