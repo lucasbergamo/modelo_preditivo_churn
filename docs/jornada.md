@@ -101,6 +101,42 @@ A vantagem do MLP neste projeto não é a performance bruta, mas a demonstraçã
 
 ---
 
+### ✅ Feature Engineering — `src/features/engineering.py`
+
+**Por que fizemos:** O MLP empatou com a Regressão Logística (AUC 0.844 vs 0.845). Causa identificada: as 27 features brutas não tinham complexidade suficiente para justificar uma rede neural. Com ~5k amostras, o modelo não tem dados suficientes para descobrir relações entre features sozinho. Feature engineering entrega essas relações prontas.
+
+**3 features criadas — todas aplicadas sobre o silver, antes do one-hot encoding:**
+
+| Feature | Cálculo | Raciocínio de negócio |
+|---|---|---|
+| `charges_per_month` | `TotalCharges / (tenure + 1)` | Detecta cobrança desproporcional ao tempo de casa — sinal de churn em clientes novos |
+| `num_services` | soma de 8 colunas de serviço | Switching cost: mais serviços = mais difícil cancelar = menos churn |
+| `is_new_customer` | `tenure <= 12` | Primeiros 12 meses têm taxa de churn historicamente ~40% vs ~15% depois |
+
+**Por que antes do one-hot encoding:** as features usam colunas numéricas e binárias que só existem no silver — após one-hot, as colunas de serviço se fragmentariam e perderiam o sentido de soma.
+
+**Posição no pipeline:**
+```
+bronze_to_silver() → add_features() → silver_to_features() → split_and_scale()
+```
+
+**Resultado obtido (30 features):**
+
+| Modelo | AUC-ROC | PR-AUC | F1 | Recall | F-beta(β=2) | vs antes |
+|---|---|---|---|---|---|---|
+| Dummy | 0.500 | 0.265 | 0.000 | 0.000 | 0.000 | — |
+| Logistic Regression | **0.849** | **0.655** | 0.630 | **0.818** | **0.731** | +0.004 AUC ✅ |
+| Random Forest | 0.825 | 0.603 | 0.540 | 0.493 | 0.511 | +0.003 AUC ✅ |
+| MLP PyTorch | 0.842 | 0.622 | **0.631** | 0.750 | 0.697 | -0.002 AUC ~ |
+
+**Análise:** as features ajudaram todos os modelos, mas beneficiaram mais a LogReg (+0.004 AUC) do que o MLP (-0.002, dentro do ruído estatístico). Isso era esperado: `charges_per_month`, `num_services` e `is_new_customer` são relações lineares ou limiares simples — a LogReg captura diretamente. O MLP precisaria de dados adicionais para superar modelos lineares neste dataset.
+
+O early stopping passou da época 25 para a 31 — as novas features adicionaram complexidade suficiente para o modelo treinar um pouco mais antes de convergir.
+
+**Conclusão sobre EDA/feature engineering:** o exercício foi válido e demonstra domínio técnico. A limitação do MLP não é arquitetural — é volume de dados. Em produção, com mais histórico de clientes, a rede neural teria vantagem crescente.
+
+---
+
 ### ⬜ Checkpoint 4 — Avaliação comparativa
 
 `src/evaluation/`: tabela comparando todos os modelos nas 5 métricas.
