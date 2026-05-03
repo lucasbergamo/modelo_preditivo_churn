@@ -96,11 +96,11 @@ O modelo central é uma **rede neural (MLP)** treinada com **PyTorch**, comparad
 
 > **Foco:** construção, treinamento e avaliação de MLP com PyTorch.
 
-- [ ] Construir MLP em PyTorch (arquitetura, função de ativação, loss function) ← próximo
-- [ ] Implementar training loop com early stopping e batching
-- [ ] Comparar MLP vs. baselines (lineares + árvores) usando ≥ 4 métricas
+- [x] Construir MLP em PyTorch — arquitetura 64→32, ReLU, BatchNorm, Dropout(0.3)
+- [x] Implementar training loop com early stopping (patience=15) e batching (batch_size=64)
+- [x] Registrar experimento MLP no MLflow (parâmetros, loss por época, métricas, artefato .pt)
+- [ ] Comparar MLP vs. baselines usando ≥ 4 métricas — tabela comparativa ← próximo
 - [ ] Analisar trade-off de custo (falso positivo vs. falso negativo)
-- [ ] Registrar todos os experimentos (MLP e ensembles) no MLflow
 
 **Entregável:** tabela comparativa de modelos + MLP treinado + artefatos no MLflow.
 
