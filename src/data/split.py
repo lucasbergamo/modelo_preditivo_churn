@@ -1,8 +1,10 @@
+import pickle
+
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
-from src.utils.config import DATA_GOLD_DIR, SEED, TARGET_COL
+from src.utils.config import DATA_GOLD_DIR, MODELS_DIR, SCALER_PATH, SEED, TARGET_COL
 from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -44,6 +46,13 @@ def split_and_scale(df: pd.DataFrame) -> dict[str, pd.DataFrame]:
         "y_test": y_test.reset_index(drop=True),
         "scaler": scaler,
     }
+
+
+def save_scaler(scaler: StandardScaler) -> None:
+    MODELS_DIR.mkdir(exist_ok=True)
+    with open(SCALER_PATH, "wb") as f:
+        pickle.dump(scaler, f)
+    logger.info("scaler_saved", path=str(SCALER_PATH))
 
 
 def save_gold(splits: dict[str, pd.DataFrame]) -> None:

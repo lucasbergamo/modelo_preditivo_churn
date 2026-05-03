@@ -137,7 +137,22 @@ O early stopping passou da época 25 para a 31 — as novas features adicionaram
 
 ---
 
-### ⬜ Checkpoint 4 — Avaliação comparativa
+### ✅ Checkpoint 4 — Avaliação comparativa (`src/evaluation/metrics.py`)
+
+**O que foi feito:** avaliação dos 4 modelos no **test set** — dados guardados desde o início, nunca vistos durante treino ou validação. É o resultado real, que simula produção.
+
+**Resultados finais:**
+
+| Modelo | AUC-ROC | PR-AUC | F1 | Recall | F-beta(β=2) |
+|---|---|---|---|---|---|
+| Logistic Regression | **0.845** | **0.669** | 0.620 | **0.765** | **0.699** |
+| MLP PyTorch | 0.844 | 0.652 | **0.624** | 0.701 | 0.668 |
+| Random Forest | 0.823 | 0.633 | 0.538 | 0.466 | 0.493 |
+| Dummy | 0.500 | 0.266 | 0.000 | 0.000 | 0.000 |
+
+---
+
+### ⬜ Checkpoint 5 — FastAPI (`src/api/`)
 
 `src/evaluation/`: tabela comparando todos os modelos nas 5 métricas.
 
