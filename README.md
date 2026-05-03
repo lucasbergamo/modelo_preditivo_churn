@@ -111,9 +111,9 @@ O modelo central é uma **rede neural (MLP)** treinada com **PyTorch**, comparad
 - [x] Estrutura modular em `src/` com separação clara de responsabilidades
 - [x] Logging estruturado com structlog (sem print())
 - [x] Linting e formatação com ruff sem erros (`make lint` verde)
-- [ ] Escrever testes (pytest): unitários, schema (pandera), smoke test, API
-- [ ] Construir API FastAPI: `/predict`, `/health`, validação Pydantic
-- [ ] Adicionar middleware de latência
+- [x] 10 testes passando: smoke test, schema Pandera (3), API (6) — `make test` verde
+- [x] API FastAPI: `/predict`, `/health`, validação Pydantic, middleware de latência
+- [x] Feature engineering: `charges_per_month`, `num_services`, `is_new_customer`
 
 **Entregável:** repositório refatorado + API funcional + testes passando.
 
@@ -121,10 +121,10 @@ O modelo central é uma **rede neural (MLP)** treinada com **PyTorch**, comparad
 
 > **Foco:** consolidação, documentação e vídeo de apresentação.
 
-- [ ] Gerar Model Card completo (performance, limitações, vieses, cenários de falha)
-- [ ] Documentar arquitetura de deploy escolhida (batch vs. real-time) + justificativa
+- [ ] Gerar Model Card completo (performance, limitações, vieses, cenários de falha) ← próximo
 - [ ] Criar plano de monitoramento (métricas, alertas, playbook de resposta)
-- [ ] Finalizar README com instruções de setup + execução + arquitetura
+- [ ] Preencher ML Canvas
+- [ ] Finalizar README com instruções de setup + execução
 - [ ] Gravar vídeo de 5 min (método STAR) demonstrando o projeto
 - [ ] (Opcional) Deploy da API em nuvem (AWS/Azure/GCP) com endpoint público
 
