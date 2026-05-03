@@ -85,9 +85,10 @@ O modelo central é uma **rede neural (MLP)** treinada com **PyTorch**, comparad
 - [x] Configurar `.gitignore` para projeto de ML (dados, modelos, mlruns, ambientes virtuais)
 - [ ] Notebook de EDA completa (volume, qualidade, distribuição, data readiness)
 - [ ] Preencher ML Canvas (stakeholders, métricas de negócio, SLOs)
-- [ ] Definir métricas técnicas (AUC-ROC, PR-AUC, F1) e de negócio (custo de churn evitado)
-- [ ] Treinar baselines: `DummyClassifier` + Regressão Logística (Scikit-Learn)
-- [ ] Registrar experimentos no MLflow (parâmetros, métricas, dataset version)
+- [x] Definir métricas técnicas: AUC-ROC, PR-AUC, F1, Recall, F-beta(β=2)
+- [x] Pipeline de dados bronze→silver→gold (`src/data/`) com split estratificado 70/15/15
+- [x] Treinar baselines: `DummyClassifier` + Regressão Logística + Random Forest (Scikit-Learn)
+- [x] Registrar experimentos no MLflow (parâmetros, métricas por modelo)
 
 **Entregável:** notebook de EDA + baselines registrados no MLflow.
 
@@ -95,7 +96,7 @@ O modelo central é uma **rede neural (MLP)** treinada com **PyTorch**, comparad
 
 > **Foco:** construção, treinamento e avaliação de MLP com PyTorch.
 
-- [ ] Construir MLP em PyTorch (arquitetura, função de ativação, loss function)
+- [ ] Construir MLP em PyTorch (arquitetura, função de ativação, loss function) ← próximo
 - [ ] Implementar training loop com early stopping e batching
 - [ ] Comparar MLP vs. baselines (lineares + árvores) usando ≥ 4 métricas
 - [ ] Analisar trade-off de custo (falso positivo vs. falso negativo)
@@ -107,12 +108,12 @@ O modelo central é uma **rede neural (MLP)** treinada com **PyTorch**, comparad
 
 > **Foco:** refatoração profissional, API de inferência e pacote reutilizável.
 
-- [ ] Refatorar código em módulos (`src/`) com estrutura limpa
-- [ ] Criar pipeline reprodutível (sklearn + transformadores custom)
+- [x] Estrutura modular em `src/` com separação clara de responsabilidades
+- [x] Logging estruturado com structlog (sem print())
+- [x] Linting e formatação com ruff sem erros (`make lint` verde)
 - [ ] Escrever testes (pytest): unitários, schema (pandera), smoke test, API
 - [ ] Construir API FastAPI: `/predict`, `/health`, validação Pydantic
-- [ ] Adicionar logging estruturado e middleware de latência
-- [ ] Configurar `pyproject.toml`, ruff, Makefile (lint, test, run)
+- [ ] Adicionar middleware de latência
 
 **Entregável:** repositório refatorado + API funcional + testes passando.
 

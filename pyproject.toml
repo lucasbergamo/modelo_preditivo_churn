@@ -51,6 +51,8 @@ select = [
     "SIM", # flake8-simplify
     "RUF", # ruff-specific
 ]
+# N803/N806: X maiúsculo é convenção universal em ML (matriz de features)
+ignore = ["N803", "N806"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["src"]

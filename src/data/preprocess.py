@@ -6,9 +6,17 @@ from src.utils.logger import get_logger
 logger = get_logger(__name__)
 
 BINARY_YES_NO = [
-    "Partner", "Dependents", "PhoneService", "PaperlessBilling",
-    "MultipleLines", "OnlineSecurity", "OnlineBackup",
-    "DeviceProtection", "TechSupport", "StreamingTV", "StreamingMovies",
+    "Partner",
+    "Dependents",
+    "PhoneService",
+    "PaperlessBilling",
+    "MultipleLines",
+    "OnlineSecurity",
+    "OnlineBackup",
+    "DeviceProtection",
+    "TechSupport",
+    "StreamingTV",
+    "StreamingMovies",
 ]
 
 ONEHOT_COLS = ["InternetService", "Contract", "PaymentMethod"]

@@ -36,9 +36,12 @@ def split_and_scale(df: pd.DataFrame) -> dict[str, pd.DataFrame]:
         churn_rate_train=round(float(y_train.mean()), 3),
     )
     return {
-        "X_train": X_train_s, "y_train": y_train.reset_index(drop=True),
-        "X_val": X_val_s,   "y_val": y_val.reset_index(drop=True),
-        "X_test": X_test_s,  "y_test": y_test.reset_index(drop=True),
+        "X_train": X_train_s,
+        "y_train": y_train.reset_index(drop=True),
+        "X_val": X_val_s,
+        "y_val": y_val.reset_index(drop=True),
+        "X_test": X_test_s,
+        "y_test": y_test.reset_index(drop=True),
         "scaler": scaler,
     }
 
@@ -46,6 +49,7 @@ def split_and_scale(df: pd.DataFrame) -> dict[str, pd.DataFrame]:
 def save_gold(splits: dict[str, pd.DataFrame]) -> None:
     for name in ("X_train", "y_train", "X_val", "y_val", "X_test", "y_test"):
         path = DATA_GOLD_DIR / f"{name}.parquet"
-        splits[name].to_frame().to_parquet(path, index=False) if splits[name].ndim == 1 \
-            else splits[name].to_parquet(path, index=False)
+        splits[name].to_frame().to_parquet(path, index=False) if splits[name].ndim == 1 else splits[
+            name
+        ].to_parquet(path, index=False)
         logger.info("gold_saved", file=name)
