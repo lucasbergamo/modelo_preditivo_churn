@@ -121,10 +121,10 @@ O modelo central é uma **rede neural (MLP)** treinada com **PyTorch**, comparad
 
 > **Foco:** consolidação, documentação e vídeo de apresentação.
 
-- [ ] Gerar Model Card completo (performance, limitações, vieses, cenários de falha) ← próximo
-- [ ] Criar plano de monitoramento (métricas, alertas, playbook de resposta)
-- [ ] Preencher ML Canvas
-- [ ] Finalizar README com instruções de setup + execução
+- [x] Model Card completo (arquitetura, métricas, limitações, ética, reprodução)
+- [x] Plano de monitoramento (métricas, PSI, thresholds, playbook de incidentes)
+- [x] ML Canvas (proposta de valor, stakeholders, features, riscos)
+- [x] jornada.md — storytelling vivo com todas as decisões técnicas documentadas
 - [ ] Gravar vídeo de 5 min (método STAR) demonstrando o projeto
 - [ ] (Opcional) Deploy da API em nuvem (AWS/Azure/GCP) com endpoint público
 

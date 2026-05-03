@@ -152,24 +152,37 @@ O early stopping passou da época 25 para a 31 — as novas features adicionaram
 
 ---
 
-### ⬜ Checkpoint 5 — FastAPI (`src/api/`)
+### ✅ Checkpoint 5 — FastAPI (`src/api/`)
 
-`src/evaluation/`: tabela comparando todos os modelos nas 5 métricas.
+**Arquivos:** `schemas.py` (Pydantic), `predictor.py` (carrega mlp.pt + scaler.pkl), `app.py` (endpoints + middleware).
 
----
+**Endpoints:** `GET /health` → `{"status":"ok"}` | `POST /predict` → `{"churn_probability": 0.82, "churn_prediction": true}`
 
-### ⬜ Checkpoint 5 — FastAPI
-
-`src/api/app.py`: endpoints `/predict` e `/health`, Pydantic, middleware de latência.
-
----
-
-### ⬜ Checkpoint 6 — Testes
-
-`tests/`: smoke test, schema Pandera, API test. `make test` verde.
+**Resultados dos testes manuais:**
+- Cliente alto risco (2 meses, fibra, mensal): probabilidade **0.8175** ✅
+- Cliente baixo risco (60 meses, 2 anos, 6 serviços): probabilidade **0.0329** ✅
+- Latência p50: ~17ms após warmup do PyTorch
 
 ---
 
-### ⬜ Checkpoint 7 — Docs finais
+### ✅ Checkpoint 6 — Testes
 
-`docs/ml_canvas.md`, `docs/model_card.md`, `docs/monitoring_plan.md`, README final.
+**10/10 testes passando** — `make test` verde em ~1:40.
+
+| Arquivo | Testes | O que valida |
+|---|---|---|
+| `test_smoke.py` | 1 | Modelo carrega e produz probabilidade entre 0 e 1 |
+| `test_schema.py` | 3 | Schema Pandera, ausência de nulos, proporção 70/15/15 |
+| `test_api.py` | 6 | /health, /predict schema, alto risco, baixo risco, 422 em campos faltantes/inválidos |
+
+---
+
+### ✅ Checkpoint 7 — Docs finais
+
+**Arquivos criados:**
+- `docs/ml_canvas.md` — proposta de valor, stakeholders, features, métricas de sucesso, riscos
+- `docs/model_card.md` — arquitetura, dados, resultados, limitações, ética, como reproduzir
+- `docs/monitoring_plan.md` — métricas operacionais, data drift (PSI), retreinamento, playbook
+- `docs/jornada.md` — este documento: storytelling vivo de todas as decisões técnicas
+
+**Status:** todos os 7 checkpoints de código concluídos. Falta apenas o vídeo STAR.
