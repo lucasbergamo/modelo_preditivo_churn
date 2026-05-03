@@ -12,8 +12,14 @@ logger = get_logger(__name__)
 
 ONEHOT_COLS = ["InternetService", "Contract", "PaymentMethod"]
 SERVICE_COLS = [
-    "PhoneService", "MultipleLines", "OnlineSecurity", "OnlineBackup",
-    "DeviceProtection", "TechSupport", "StreamingTV", "StreamingMovies",
+    "PhoneService",
+    "MultipleLines",
+    "OnlineSecurity",
+    "OnlineBackup",
+    "DeviceProtection",
+    "TechSupport",
+    "StreamingTV",
+    "StreamingMovies",
 ]
 
 

@@ -20,8 +20,8 @@
 ### Arquitetura
 
 ```
-Input (30 features)
-    → Linear(30, 64) → BatchNorm1d(64) → ReLU → Dropout(0.3)
+Input (29 features)
+    → Linear(29, 64) → BatchNorm1d(64) → ReLU → Dropout(0.3)
     → Linear(64, 32) → BatchNorm1d(32) → ReLU → Dropout(0.3)
     → Linear(32, 1)
     → [Sigmoid aplicado apenas na inferência]

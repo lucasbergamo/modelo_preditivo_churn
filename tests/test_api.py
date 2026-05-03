@@ -1,6 +1,5 @@
 """API test — valida endpoints /health e /predict com TestClient."""
 
-import pytest
 from fastapi.testclient import TestClient
 
 from src.api.app import app
@@ -8,22 +7,44 @@ from src.api.app import app
 client = TestClient(app)
 
 HIGH_RISK_CLIENT = {
-    "gender": 0, "SeniorCitizen": 0, "Partner": 0, "Dependents": 0,
-    "tenure": 2, "PhoneService": 1, "MultipleLines": 0,
-    "OnlineSecurity": 0, "OnlineBackup": 0, "DeviceProtection": 0,
-    "TechSupport": 0, "StreamingTV": 0, "StreamingMovies": 0,
-    "PaperlessBilling": 1, "MonthlyCharges": 70.0, "TotalCharges": 140.0,
+    "gender": 0,
+    "SeniorCitizen": 0,
+    "Partner": 0,
+    "Dependents": 0,
+    "tenure": 2,
+    "PhoneService": 1,
+    "MultipleLines": 0,
+    "OnlineSecurity": 0,
+    "OnlineBackup": 0,
+    "DeviceProtection": 0,
+    "TechSupport": 0,
+    "StreamingTV": 0,
+    "StreamingMovies": 0,
+    "PaperlessBilling": 1,
+    "MonthlyCharges": 70.0,
+    "TotalCharges": 140.0,
     "InternetService": "Fiber optic",
     "Contract": "Month-to-month",
     "PaymentMethod": "Electronic check",
 }
 
 LOW_RISK_CLIENT = {
-    "gender": 1, "SeniorCitizen": 0, "Partner": 1, "Dependents": 1,
-    "tenure": 60, "PhoneService": 1, "MultipleLines": 1,
-    "OnlineSecurity": 1, "OnlineBackup": 1, "DeviceProtection": 1,
-    "TechSupport": 1, "StreamingTV": 1, "StreamingMovies": 1,
-    "PaperlessBilling": 0, "MonthlyCharges": 95.0, "TotalCharges": 5700.0,
+    "gender": 1,
+    "SeniorCitizen": 0,
+    "Partner": 1,
+    "Dependents": 1,
+    "tenure": 60,
+    "PhoneService": 1,
+    "MultipleLines": 1,
+    "OnlineSecurity": 1,
+    "OnlineBackup": 1,
+    "DeviceProtection": 1,
+    "TechSupport": 1,
+    "StreamingTV": 1,
+    "StreamingMovies": 1,
+    "PaperlessBilling": 0,
+    "MonthlyCharges": 95.0,
+    "TotalCharges": 5700.0,
     "InternetService": "DSL",
     "Contract": "Two year",
     "PaymentMethod": "Bank transfer (automatic)",

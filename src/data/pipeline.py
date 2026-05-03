@@ -10,7 +10,7 @@ def run() -> None:
     df_bronze = load_bronze()
     df_silver = bronze_to_silver(df_bronze)
     save_silver(df_silver)
-    df_engineered = add_features(df_silver)       # features derivadas antes do encoding
+    df_engineered = add_features(df_silver)  # features derivadas antes do encoding
     df_features = silver_to_features(df_engineered)
     splits = split_and_scale(df_features)
     save_scaler(splits["scaler"])

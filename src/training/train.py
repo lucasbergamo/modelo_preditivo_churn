@@ -39,20 +39,26 @@ from src.utils.reproducibility import set_global_seed
 logger = get_logger(__name__)
 
 # Hiperparâmetros — valores alinhados com aula04-mlp-pytorch-keras do curso
-HIDDEN_DIMS = (64, 32)   # funil progressivo: suficiente para 27 features
-DROPOUT = 0.3            # regularização conservadora para dataset pequeno (~5k amostras)
-LEARNING_RATE = 1e-3     # padrão do Adam em problemas tabulares
-BATCH_SIZE = 64          # mini-batch: balanço entre estabilidade e velocidade
-MAX_EPOCHS = 200         # teto; early stopping vai interromper antes
-PATIENCE = 15            # épocas sem melhora antes de parar
+HIDDEN_DIMS = (64, 32)  # funil progressivo: suficiente para 27 features
+DROPOUT = 0.3  # regularização conservadora para dataset pequeno (~5k amostras)
+LEARNING_RATE = 1e-3  # padrão do Adam em problemas tabulares
+BATCH_SIZE = 64  # mini-batch: balanço entre estabilidade e velocidade
+MAX_EPOCHS = 200  # teto; early stopping vai interromper antes
+PATIENCE = 15  # épocas sem melhora antes de parar
 POS_WEIGHT_FACTOR = 2.0  # penaliza falsos negativos (churn não detectado é mais caro)
 
 
 def load_tensors() -> tuple[torch.Tensor, ...]:
-    X_train = torch.tensor(pd.read_parquet(DATA_GOLD_DIR / "X_train.parquet").values, dtype=torch.float32)
-    y_train = torch.tensor(pd.read_parquet(DATA_GOLD_DIR / "y_train.parquet").values.squeeze(), dtype=torch.float32)
-    X_val = torch.tensor(pd.read_parquet(DATA_GOLD_DIR / "X_val.parquet").values, dtype=torch.float32)
-    y_val = torch.tensor(pd.read_parquet(DATA_GOLD_DIR / "y_val.parquet").values.squeeze(), dtype=torch.float32)
+    def _t(path):
+        return torch.tensor(pd.read_parquet(path).values, dtype=torch.float32)
+
+    def _ts(path):
+        return torch.tensor(pd.read_parquet(path).values.squeeze(), dtype=torch.float32)
+
+    X_train = _t(DATA_GOLD_DIR / "X_train.parquet")
+    y_train = _ts(DATA_GOLD_DIR / "y_train.parquet")
+    X_val = _t(DATA_GOLD_DIR / "X_val.parquet")
+    y_val = _ts(DATA_GOLD_DIR / "y_val.parquet")
     return X_train, y_train, X_val, y_val
 
 
@@ -98,18 +104,20 @@ def run() -> None:
     mlflow.set_experiment(MLFLOW_EXPERIMENT_NAME)
 
     with mlflow.start_run(run_name="mlp_pytorch"):
-        mlflow.log_params({
-            "model": "MLP",
-            "hidden_dims": str(HIDDEN_DIMS),
-            "dropout": DROPOUT,
-            "learning_rate": LEARNING_RATE,
-            "batch_size": BATCH_SIZE,
-            "max_epochs": MAX_EPOCHS,
-            "patience": PATIENCE,
-            "pos_weight": POS_WEIGHT_FACTOR,
-            "optimizer": "Adam",
-            "loss": "BCEWithLogitsLoss",
-        })
+        mlflow.log_params(
+            {
+                "model": "MLP",
+                "hidden_dims": str(HIDDEN_DIMS),
+                "dropout": DROPOUT,
+                "learning_rate": LEARNING_RATE,
+                "batch_size": BATCH_SIZE,
+                "max_epochs": MAX_EPOCHS,
+                "patience": PATIENCE,
+                "pos_weight": POS_WEIGHT_FACTOR,
+                "optimizer": "Adam",
+                "loss": "BCEWithLogitsLoss",
+            }
+        )
 
         best_val_loss = np.inf
         best_weights = copy.deepcopy(model.state_dict())

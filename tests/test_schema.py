@@ -1,7 +1,6 @@
 """Schema test — valida que os dados gold têm estrutura correta com Pandera."""
 
 import pandas as pd
-import pandera.pandas as pa
 from pandera.pandas import Column, DataFrameSchema
 
 from src.utils.config import DATA_GOLD_DIR

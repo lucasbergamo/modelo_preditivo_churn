@@ -27,7 +27,6 @@ def compute_metrics(y_true, y_proba) -> dict:
 
 
 def evaluate_all() -> pd.DataFrame:
-    import numpy as np
     from src.models.baselines import get_baselines
 
     X_train = pd.read_parquet(DATA_GOLD_DIR / "X_train.parquet")
@@ -57,8 +56,16 @@ def evaluate_all() -> pd.DataFrame:
     df = pd.DataFrame(results).T.reset_index().rename(columns={"index": "model"})
     df = df.sort_values("auc_roc", ascending=False).reset_index(drop=True)
 
-    print("\n=== COMPARATIVO FINAL — TEST SET ===")
-    print(df.to_string(index=False))
+    for _, row in df.iterrows():
+        logger.info(
+            "model_result",
+            model=row["model"],
+            auc_roc=row["auc_roc"],
+            pr_auc=row["pr_auc"],
+            f1=row["f1"],
+            recall=row["recall"],
+            fbeta2=row["fbeta2"],
+        )
     return df
 
 

@@ -5,8 +5,14 @@ from src.utils.logger import get_logger
 logger = get_logger(__name__)
 
 SERVICE_COLS = [
-    "PhoneService", "MultipleLines", "OnlineSecurity", "OnlineBackup",
-    "DeviceProtection", "TechSupport", "StreamingTV", "StreamingMovies",
+    "PhoneService",
+    "MultipleLines",
+    "OnlineSecurity",
+    "OnlineBackup",
+    "DeviceProtection",
+    "TechSupport",
+    "StreamingTV",
+    "StreamingMovies",
 ]
 
 

@@ -22,7 +22,7 @@ class CustomerInput(BaseModel):
     Contract: str = Field(..., description="Month-to-month | One year | Two year")
     PaymentMethod: str = Field(
         ...,
-        description="Electronic check | Mailed check | Bank transfer (automatic) | Credit card (automatic)",
+        description="Electronic check | Mailed check | Bank transfer (automatic) | Credit card (automatic)",  # noqa: E501
     )
 
 
