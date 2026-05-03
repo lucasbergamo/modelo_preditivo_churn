@@ -84,7 +84,7 @@ O modelo central é uma **rede neural (MLP)** treinada com **PyTorch**, comparad
 - [x] Configurar módulo de utilidades (`src/utils/`): config, logger (structlog), reproducibility (seeds)
 - [x] Configurar `.gitignore` para projeto de ML (dados, modelos, mlruns, ambientes virtuais)
 - [ ] Notebook de EDA completa (volume, qualidade, distribuição, data readiness)
-- [ ] Preencher ML Canvas (stakeholders, métricas de negócio, SLOs)
+- [x] Preencher ML Canvas (stakeholders, métricas de negócio, SLOs)
 - [x] Definir métricas técnicas: AUC-ROC, PR-AUC, F1, Recall, F-beta(β=2)
 - [x] Pipeline de dados bronze→silver→gold (`src/data/`) com split estratificado 70/15/15
 - [x] Treinar baselines: `DummyClassifier` + Regressão Logística + Random Forest (Scikit-Learn)
@@ -192,7 +192,9 @@ Single source of truth do projeto. Gerencia:
 | `make format` | Corrige linting e formata código automaticamente |
 | `make test` | Executa testes com pytest |
 | `make run` | Sobe a API FastAPI em `localhost:8000` |
-| `make train` | Executa o pipeline de treinamento |
+| `make pipeline` | Executa apenas o pipeline de dados (bronze → gold) |
+| `make train` | Executa apenas o treinamento (gold já existe) |
+| `make retrain` | Pipeline + treino em sequência (usar ao mudar features) |
 | `make mlflow` | Abre a UI do MLflow em `localhost:5000` |
 | `make clean` | Remove caches (\_\_pycache\_\_, .pytest_cache, .ruff_cache) |
 
@@ -228,11 +230,26 @@ source .venv/bin/activate  # Linux/Mac
 
 # Instalar dependências
 pip install -e ".[dev]"
+```
 
-# Executar testes
+### Dataset
+
+O dataset **Telco Customer Churn (IBM)** está incluído no repositório em `data/bronze/telco_customer_churn.csv`.
+
+Decisão intencional: o arquivo é público (sem PII), tem 1.4MB e sua presença garante reprodutibilidade completa independente de disponibilidade de serviços externos. A seed fixada em 42 assegura que qualquer pessoa que rodar `make retrain` obterá exatamente os mesmos splits e métricas.
+
+Fonte original: https://www.kaggle.com/datasets/blastchar/telco-customer-churn
+
+### Reproduzir o pipeline completo
+
+```bash
+# Gera dados silver/gold e treina o modelo
+make retrain
+
+# Verificar que tudo funciona
 make test
 
-# Executar linting
+# Verificar linting
 make lint
 
 # Subir API

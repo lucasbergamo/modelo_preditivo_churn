@@ -35,9 +35,12 @@ ENV/
 *.pickle
 *.h5
 *.hdf5
-data/bronze/
 data/silver/
 data/gold/
+
+# Dataset público commitado intencionalmente para garantir reprodutibilidade
+# (1.4MB, sem PII, fonte: IBM Telco Customer Churn)
+!data/bronze/telco_customer_churn.csv
 
 # MLflow
 mlruns/
