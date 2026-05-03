@@ -83,7 +83,7 @@ O modelo central é uma **rede neural (MLP)** treinada com **PyTorch**, comparad
 - [x] Download do dataset Telco Customer Churn (IBM) — 7.043 registros, 21 colunas
 - [x] Configurar módulo de utilidades (`src/utils/`): config, logger (structlog), reproducibility (seeds)
 - [x] Configurar `.gitignore` para projeto de ML (dados, modelos, mlruns, ambientes virtuais)
-- [ ] Notebook de EDA completa (volume, qualidade, distribuição, data readiness)
+- [x] Notebook de EDA completa (volume, qualidade, distribuição, data readiness)
 - [x] Preencher ML Canvas (stakeholders, métricas de negócio, SLOs)
 - [x] Definir métricas técnicas: AUC-ROC, PR-AUC, F1, Recall, F-beta(β=2)
 - [x] Pipeline de dados bronze→silver→gold (`src/data/`) com split estratificado 70/15/15

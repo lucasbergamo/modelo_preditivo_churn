@@ -186,3 +186,37 @@ O early stopping passou da época 25 para a 31 — as novas features adicionaram
 - `docs/jornada.md` — este documento: storytelling vivo de todas as decisões técnicas
 
 **Status:** todos os 7 checkpoints de código concluídos. Falta apenas o vídeo STAR.
+
+---
+
+### ✅ Checkpoint 8 — EDA executada + experimento is_fiber_new
+
+**EDA executada e commitada:**
+- `notebooks/eda.ipynb` executado com outputs reais — entregável da Etapa 1 concluído
+- Resultados confirmaram os principais drivers de churn: contrato month-to-month (42.7%), fibra ótica (41.9%), clientes 0-12 meses (47.4%)
+- Nenhuma decisão de modelagem foi alterada — a EDA confirmou que as features e métricas escolhidas eram corretas
+
+**Experimento is_fiber_new — descartado:**
+
+Hipótese: fibra ótica + cliente novo seria uma interação com sinal suficiente para melhorar o modelo.
+
+Resultado após `make retrain`:
+
+| Métrica | Antes (30 features) | Com is_fiber_new (31) | Diferença |
+|---|---|---|---|
+| AUC-ROC | 0.842 | 0.841 | -0.001 |
+| PR-AUC | 0.622 | 0.614 | -0.008 |
+| Recall | 0.750 | 0.704 | -0.046 |
+| Early stopping | época 31 | época 23 | convergiu mais cedo |
+
+Decisão: revertido. A feature era redundante com `InternetService_Fiber optic` e `is_new_customer` já presentes no gold — adicionou ruído em vez de sinal.
+
+**Dataset commitado no bronze:**
+- `data/bronze/telco_customer_churn.csv` incluído no repositório intencionalmente
+- Motivo: garantir reprodutibilidade completa sem depender de disponibilidade do Kaggle
+- `.gitignore` atualizado com exceção explícita `!data/bronze/telco_customer_churn.csv`
+
+**Makefile expandido:**
+- `make pipeline` — só regenera o gold
+- `make train` — só treina (gold já existe)
+- `make retrain` — pipeline + treino em sequência (usar ao mudar features)
