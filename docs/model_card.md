@@ -20,8 +20,8 @@
 ### Arquitetura
 
 ```
-Input (29 features)
-    → Linear(29, 64) → BatchNorm1d(64) → ReLU → Dropout(0.3)
+Input (30 features)
+    → Linear(30, 64) → BatchNorm1d(64) → ReLU → Dropout(0.3)
     → Linear(64, 32) → BatchNorm1d(32) → ReLU → Dropout(0.3)
     → Linear(32, 1)
     → [Sigmoid aplicado apenas na inferência]
@@ -138,7 +138,38 @@ A diferença de 0.001 no AUC-ROC é estatisticamente insignificante. Para datase
 
 ---
 
-## 8. Como Reproduzir
+## 8. Melhorias para Produção
+
+Funcionalidades identificadas durante o desenvolvimento que não foram implementadas por estarem fora do escopo do Tech Challenge, mas representam o próximo nível para um deploy real.
+
+### MLflow — Dataset Logging
+Registrar formalmente o dataset usado em cada run via `mlflow.log_input()`. Hoje os runs do MLflow não têm a coluna "Dataset" preenchida. Em produção, onde o dataset muda periodicamente, isso permite rastrear "esse modelo foi treinado com os dados de qual versão/semana".
+
+```python
+# Adicionar em src/training/train.py após carregar os dados
+dataset = mlflow.data.from_pandas(df, source="data/gold/X_train.parquet", name="telco-churn-train")
+mlflow.log_input(dataset, context="training")
+```
+
+### MLflow — Model Registry
+Promover modelos formalmente para "Staging" ou "Production" em vez de sobrescrever o `mlp.pt` diretamente. Permite rollback imediato se um novo modelo for pior: basta rebaixar a versão nova e promover a anterior, sem redeployar código.
+
+Requer migrar o backend do MLflow de filesystem para SQLite (hoje gera o `FutureWarning` no terminal):
+
+```bash
+# mlflow.db no lugar de ./mlruns
+mlflow server --backend-store-uri sqlite:///mlflow.db --port 5000
+```
+
+### SHAP Values — Explicabilidade
+O modelo atual não é explicável por padrão — não é possível justificar individualmente por que um cliente recebeu score 0.82. SHAP values calculam a contribuição de cada feature para cada previsão, permitindo que o atendente saiba: "esse cliente tem score alto porque tem contrato mensal + fibra + 3 meses de casa".
+
+### Threshold por segmento de receita
+O threshold padrão de 0.5 trata igual um cliente de R$120/mês e um de R$30/mês. Em produção, clientes de alto valor justificam threshold menor (mais agressivo em detectar churn) e ações de retenção mais custosas.
+
+---
+
+## 9. Como Reproduzir
 
 ```bash
 # 1. Clonar e instalar
