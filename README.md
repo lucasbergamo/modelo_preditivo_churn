@@ -1,6 +1,6 @@
 # Modelo Preditivo de Churn — Telecom
 
-Rede Neural (MLP) para previsão de churn em operadora de telecomunicações, com pipeline profissional end-to-end.
+Rede Neural (MLP) para previsão de churn em operadora de telecomunicações.
 
 ## Contexto
 
