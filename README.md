@@ -240,9 +240,10 @@ Single source of truth do projeto. Gerencia:
 | `make format` | Corrige linting e formata código automaticamente |
 | `make test` | Executa testes com pytest |
 | `make run` | Sobe a API FastAPI em `localhost:8000` |
-| `make pipeline` | Executa apenas o pipeline de dados (bronze → gold) |
-| `make train` | Executa apenas o treinamento (gold já existe) |
-| `make retrain` | Pipeline + treino em sequência (usar ao mudar features) |
+| `make data` | Executa o pipeline de dados (bronze → gold) |
+| `make train` | Executa `data` + `train-baselines` + `train-mlp` em sequência |
+| `make train-mlp` | Treina apenas o MLP (requer `make data` antes) |
+| `make train-baselines` | Treina apenas os baselines sklearn no MLflow |
 | `make mlflow` | Abre a UI do MLflow em `localhost:5000` |
 | `make clean` | Remove caches (\_\_pycache\_\_, .pytest_cache, .ruff_cache) |
 
@@ -290,16 +291,20 @@ Fonte original: https://www.kaggle.com/datasets/blastchar/telco-customer-churn
 
 ### Reproduzir o pipeline completo
 
-```bash
-# Gera dados silver/gold e treina o modelo
-make retrain
+> **Atenção:** `make train` é pré-requisito obrigatório antes de `make test` e `make run`.
+> Os artefatos de modelo (`models/mlp.pt`, `models/scaler.pkl`) e os splits de dados
+> (`data/gold/`) são gitignored e precisam ser gerados localmente.
 
-# Verificar que tudo funciona
+```bash
+# 1. Gera gold data + treina baselines + treina MLP (~3-5 min)
+make train
+
+# 2. Verifica que todos os 13 testes passam
 make test
 
-# Verificar linting
+# 3. Verifica linting
 make lint
 
-# Subir API
+# 4. Sobe a API em localhost:8000
 make run
 ```

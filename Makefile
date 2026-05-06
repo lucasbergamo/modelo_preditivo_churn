@@ -1,4 +1,4 @@
-.PHONY: install lint test run pipeline train retrain mlflow clean
+.PHONY: install lint test run data train train-mlp train-baselines mlflow clean
 
 
 install:
@@ -18,15 +18,16 @@ test:
 run:
 	uvicorn src.api.app:app --host 0.0.0.0 --port 8000 --reload
 
-pipeline:
+data:
 	python -m src.data.pipeline
 
-train:
+train-mlp:
 	python -m src.training.train
 
-retrain:
-	python -m src.data.pipeline
-	python -m src.training.train
+train-baselines:
+	python -m src.training.train_baselines
+
+train: data train-baselines train-mlp
 
 mlflow:
 	mlflow ui --port 5000
