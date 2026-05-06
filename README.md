@@ -1,5 +1,12 @@
 # Modelo Preditivo de Churn — Telecom
 
+![Python](https://img.shields.io/badge/python-3.11+-3776AB?style=flat-square&logo=python&logoColor=white)
+![PyTorch](https://img.shields.io/badge/PyTorch-2.2+-EE4C2C?style=flat-square&logo=pytorch&logoColor=white)
+![MLflow](https://img.shields.io/badge/MLflow-2.15+-0194E2?style=flat-square&logo=mlflow&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-009688?style=flat-square&logo=fastapi&logoColor=white)
+![Ruff](https://img.shields.io/badge/linting-ruff-FCC21B?style=flat-square)
+![Testes](https://img.shields.io/badge/testes-13%20passando-brightgreen?style=flat-square)
+
 Rede Neural (MLP) para previsão de churn em operadora de telecomunicações.
 
 ## Contexto
@@ -170,7 +177,19 @@ O pipeline de dados segue a **arquitetura medalhão**, garantindo rastreabilidad
 | **Silver** | `data/silver/` | Dado limpo e padronizado. Tipagem corrigida, nulos tratados, encoding de categóricas, remoção de duplicatas. | Dados com `TotalCharges` convertido para float, colunas categóricas codificadas |
 | **Gold** | `data/gold/` | Dado pronto para modelagem. Features engineered, normalização aplicada, splits train/val/test gerados. | Arrays numpy ou tensors PyTorch prontos para o DataLoader |
 
-**Fluxo:** `Bronze (ingestão)` → `Silver (limpeza)` → `Gold (feature store)` → `Modelo`
+```mermaid
+flowchart LR
+    A["📄 Bronze\nCSV original"] -->|"bronze_to_silver\nadd_features"| B["🥈 Silver\nlimpo + tipado"]
+    B -->|"silver_to_features\nget_dummies"| C["🥇 Gold\ntrain / val / test"]
+    C -->|"StandardScaler\nMLP PyTorch"| D["🧠 Modelo\nmlp.pt + scaler.pkl"]
+    D -->|"FastAPI\n/predict"| E["🌐 API\nJSON response"]
+
+    style A fill:#cd7f32,color:#fff
+    style B fill:#c0c0c0,color:#000
+    style C fill:#ffd700,color:#000
+    style D fill:#6366f1,color:#fff
+    style E fill:#059669,color:#fff
+```
 
 ## Configuração do Projeto
 
