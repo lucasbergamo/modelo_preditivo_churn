@@ -9,6 +9,20 @@
 
 Rede Neural (MLP) para previsão de churn em operadora de telecomunicações.
 
+## Sumário
+
+- [Contexto](#contexto)
+- [Stack Tecnológica](#stack-tecnológica)
+- [Dataset](#dataset)
+- [Resultados](#resultados)
+- [Estrutura do Projeto](#estrutura-do-projeto)
+- [Arquitetura de Dados — Medalhão](#arquitetura-de-dados--medalhão-bronze--silver--gold)
+- [Setup e Instalação](#setup)
+- [Reproduzir o pipeline completo](#reproduzir-o-pipeline-completo)
+- [Configuração do Projeto](#configuração-do-projeto)
+- [Boas Práticas](#boas-práticas)
+- [Critérios de Avaliação](#critérios-de-avaliação)
+
 ## Contexto
 
 Uma operadora de telecomunicações está perdendo clientes em ritmo acelerado. A diretoria precisa de um modelo preditivo de churn que classifique clientes com risco de cancelamento. O projeto abrange desde a análise exploratória até o modelo servido via API, aplicando boas práticas de engenharia de ML.
@@ -65,6 +79,21 @@ O modelo central é uma **rede neural (MLP)** treinada com **PyTorch**, comparad
 | `MonthlyCharges` | numérica | Valor mensal |
 | `TotalCharges` | numérica | Valor total acumulado |
 | `Churn` | target | Cancelou o serviço (Yes/No) |
+
+## Resultados
+
+Comparação de modelos no conjunto de teste (split estratificado 70/15/15, seed=42):
+
+| Modelo | AUC-ROC | PR-AUC | F1 | Recall | F-beta(β=2) |
+|---|---|---|---|---|---|
+| **MLP PyTorch** | **0.844** | 0.652 | **0.624** | 0.701 | 0.668 |
+| Logistic Regression | 0.845 | **0.669** | 0.620 | **0.765** | **0.699** |
+| Random Forest | 0.823 | 0.633 | 0.538 | 0.466 | 0.493 |
+| Dummy (baseline) | 0.500 | 0.266 | 0.000 | 0.000 | 0.000 |
+
+O MLP é competitivo com a Regressão Logística (diferença de 0.001 em AUC-ROC), resultado esperado em dados tabulares com ~5k amostras. A vantagem da rede neural está na demonstração de domínio técnico: early stopping, batching, regularização com Dropout e BatchNorm, rastreamento de loss por época no MLflow.
+
+Detalhes completos em [`docs/model_card.md`](docs/model_card.md).
 
 ## Critérios de Avaliação
 
